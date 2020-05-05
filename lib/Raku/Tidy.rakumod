@@ -2,7 +2,7 @@
 
 =begin NAME
 
-Perl6::Tidy - Tidy Perl 6 source code according to your guidelines
+Raku::Tidy - Tidy Raku source code according to your guidelines
 
 =end NAME
 
@@ -12,7 +12,7 @@ Perl6::Tidy - Tidy Perl 6 source code according to your guidelines
     # Some rely on others to work, for instance 'indent-with-spaces'
     # only makes sense when used with an indentation style 'indent-style'.
     #
-    my $pt = Perl6::Tidy.new(
+    my $pt = Raku::Tidy.new(
         :strip-comments( False ),
         :strip-pod( False ),
         :strip-documentation( False ), # Superset of documentation and pod
@@ -42,13 +42,13 @@ Perl6::Tidy - Tidy Perl 6 source code according to your guidelines
 
     # This *will* execute phasers such as BEGIN in your existing code.
     # This may constitute a security hole, at least until the author figures
-    # out how to truly make the Perl 6 grammar standalone.
+    # out how to truly make the Raku grammar standalone.
 
 =end SYNOPSIS
 
 =begin DESCRIPTION
 
-Uses L<Perl6::Parser> to parse your source into a Perl 6 data structure, then walks the data structure and prints it according to your format guidelines. Currently you can re-indent your Perl 6 code, strip POD and comments, and change spacing around operatos. For more details about what you can do with your Perl 6 code, read the sections below.
+Uses L<Raku::Parser> to parse your source into a Raku data structure, then walks the data structure and prints it according to your format guidelines. Currently you can re-indent your Raku code, strip POD and comments, and change spacing around operators. For more details about what you can do with your Raku code, read the sections below.
 
 =begin Indentation
 
@@ -133,7 +133,7 @@ Tidy the source code according to the guidelines set up in the constructor.
 
 =end pod
 
-use Perl6::Parser;
+use Raku::Parser;
 
 subset Non-Negative-Int of Int where * > -1;
 subset Positive-Int of Int where * > 0;
@@ -175,7 +175,7 @@ role Spare-Tokens {
 	}
 
 	method spare-newline {
-		Perl6::Newline.new(
+		Raku::Newline.new(
 			:from( 0 ),
 			:to( 0 ),
 			:content( "\n" )
@@ -183,7 +183,7 @@ role Spare-Tokens {
 	}
 
 	method spare-space {
-		Perl6::WS.new(
+		Raku::WS.new(
 			:from( 0 ),
 			:to( 0 ),
 			:content( " " )
@@ -191,7 +191,7 @@ role Spare-Tokens {
 	}
 
 	method spare-indent( Int $depth ) {
-		Perl6::WS.new(
+		Raku::WS.new(
 			:from( 0 ),
 			:to( 0 ),
 			:content( self._tab( $depth ) )
@@ -203,7 +203,7 @@ role Spare-Tokens {
 	method spare-indent-and-a-half( Int $depth ) {
 		my $half-tab =
 			' ' x floor( TAB-STOP-IN-SPACES / 2 );
-		Perl6::WS.new(
+		Raku::WS.new(
 			:from( 0 ),
 			:to( 0 ),
 			:content( ( self._tab( $depth ) ) ~ $half-tab )
@@ -258,7 +258,7 @@ my class CursorList {
 
 	method current { @.token[$.index] }
 
-	method replace-with( Perl6::Element $node ) {
+	method replace-with( Raku::Element $node ) {
 		@.token.splice( $.index, 1, $node )
 	}
 
@@ -266,7 +266,7 @@ my class CursorList {
 		@.token.splice( $.index - 1, 1 );
 		self.move(-1);
 	}
-	method delete-behind-by-type( Perl6::Element $type ) {
+	method delete-behind-by-type( Raku::Element $type ) {
 		self.delete-behind
 			while self.peek( -1 ) ~~ $type;
 	}
@@ -277,12 +277,12 @@ my class CursorList {
 	method delete-ahead {
 		@.token.splice( $.index + 1, 1 );
 	}
-	method delete-ahead-by-type( Perl6::Element $type ) {
+	method delete-ahead-by-type( Raku::Element $type ) {
 		self.delete-ahead
 			while self.peek ~~ $type;
 	}
 
-	method delete-around-by-type( Perl6::Element $type ) {
+	method delete-around-by-type( Raku::Element $type ) {
 		self.delete-behind-by-type( $type );
 		self.delete-ahead-by-type( $type );
 	}
@@ -306,7 +306,7 @@ my role Debugging {
 	}
 }
 
-class Perl6::Tidy::Internals {
+class Raku::Tidy::Internals {
 	also does Spare-Tokens;
 	also does Debugging;
 
@@ -320,7 +320,7 @@ class Perl6::Tidy::Internals {
 
 	has Operator-Style   $.operator-style is required;
 
-	has Perl6::Parser    $.parser = Perl6::Parser.new;
+	has Raku::Parser    $.parser = Raku::Parser.new;
 
 	has Non-Negative-Int $.brace-depth = 0;
 	has Non-Negative-Int $.pointy-depth = 0;
@@ -331,10 +331,10 @@ class Perl6::Tidy::Internals {
 
 	# Use REs to match the braces because ':(..)' is valid.
 	#
-	method update-indent( Perl6::Element $token ) {
+	method update-indent( Raku::Element $token ) {
 		given $token {
-			when Perl6::Block::Enter { $!brace-depth++ }
-			when Perl6::Balanced::Enter {
+			when Raku::Block::Enter { $!brace-depth++ }
+			when Raku::Balanced::Enter {
 				given $token.content {
 					when /\(/ { $!paren-depth++ }
 					when /\[/ { $!square-depth++ }
@@ -344,8 +344,8 @@ class Perl6::Tidy::Internals {
 					}
 				}
 			}
-			when Perl6::Block::Exit { $!brace-depth-- }
-			when Perl6::Balanced::Exit {
+			when Raku::Block::Exit { $!brace-depth-- }
+			when Raku::Balanced::Exit {
 				given $token.content {
 					when /\)/ { $!paren-depth-- }
 					when /\]/ { $!square-depth-- }
@@ -364,7 +364,7 @@ class Perl6::Tidy::Internals {
 
 		unless $.cursor.current.content eq '-' {
 			$.cursor.delete-around-by-type(
-				Perl6::Invisible
+				Raku::Invisible
 			);
 			if $.operator-style eq 'uncuddled' {
 				$.cursor.add-behind( self.spare-space );
@@ -375,21 +375,21 @@ class Perl6::Tidy::Internals {
 
 	method reflow-pod {
 		if $.strip-pod or $.strip-documentation {
-			$.cursor.delete-behind-by-type( Perl6::Invisible );
+			$.cursor.delete-behind-by-type( Raku::Invisible );
 			$.cursor.delete-self;
 		}
 	}
 
 	method reflow-comment {
 		if $.strip-comments or $.strip-documentation {
-			$.cursor.delete-behind-by-type( Perl6::Invisible );
+			$.cursor.delete-behind-by-type( Raku::Invisible );
 			$.cursor.delete-self;
 		}
 	}
 
 	method reflow-open-brace {
 		if $.indent-style ne 'none' {
-			$.cursor.delete-around-by-type( Perl6::Invisible );
+			$.cursor.delete-around-by-type( Raku::Invisible );
 		}
 		given $.indent-style {
 			when 'tab' | 'k-n-r' | 'Ratliff' | 'Lisp' {
@@ -445,7 +445,7 @@ class Perl6::Tidy::Internals {
 
 	method reflow-whitespace {
 		if $.indent-style ne 'none' {
-			$.cursor.delete-around-by-type( Perl6::Invisible );
+			$.cursor.delete-around-by-type( Raku::Invisible );
 		}
 		given $.indent-style {
 			when 'tab' | 'k-n-r' | 'Allman' | 'GNU' |
@@ -458,7 +458,7 @@ class Perl6::Tidy::Internals {
 
 	method reflow-semicolon {
 		if $.indent-style ne 'none' {
-			$.cursor.delete-around-by-type( Perl6::Invisible );
+			$.cursor.delete-around-by-type( Raku::Invisible );
 		}
 		given $.indent-style {
 			when 'tab' | 'k-n-r' | 'Allman' | 'GNU' |
@@ -474,7 +474,7 @@ class Perl6::Tidy::Internals {
 
 	method reflow-close-brace {
 		if $.indent-style ne 'none' {
-			$.cursor.delete-around-by-type( Perl6::Invisible );
+			$.cursor.delete-around-by-type( Raku::Invisible );
 		}
 		given $.indent-style {
 			when 'tab' | 'k-n-r' | 'Allman' | 'Horstmann' {
@@ -515,25 +515,25 @@ class Perl6::Tidy::Internals {
 		while !$.cursor.loop-done {
 			self.update-indent( $.cursor.current );
 			given $.cursor.current {
-				when Perl6::Operator {
+				when Raku::Operator {
 					self.reflow-operator;
 				}
-				when Perl6::Pod {
+				when Raku::Pod {
 					self.reflow-pod;
 				}
-				when Perl6::Comment {
+				when Raku::Comment {
 					self.reflow-comment;
 				}
-				when Perl6::Block::Enter {
+				when Raku::Block::Enter {
 					self.reflow-open-brace;
 				}
-				when Perl6::Semicolon {
+				when Raku::Semicolon {
 					self.reflow-semicolon;
 				}
-				when Perl6::WS {
+				when Raku::WS {
 					self.reflow-whitespace;
 				}
-				when Perl6::Block::Exit {
+				when Raku::Block::Exit {
 					self.reflow-close-brace;
 				}
 			}
@@ -547,7 +547,7 @@ class Perl6::Tidy::Internals {
 # I'd love to come up with a better solution that lets me clean up
 # $.{brace,bracket..}-depth with no boilerplate.
 #
-class Perl6::Tidy:ver<0.0.7>  {
+class Raku::Tidy:ver<0.0.7>  {
 	has Bool           $.strip-comments = False;
 	has Bool           $.strip-pod = False;
 	has Bool           $.strip-documentation = False;
@@ -559,7 +559,7 @@ class Perl6::Tidy:ver<0.0.7>  {
 	has Operator-Style $.operator-style = 'none';
 
 	method tidy( Str $source ) {
-		my $internals = Perl6::Tidy::Internals.new(
+		my $internals = Raku::Tidy::Internals.new(
 			:strip-comments( $.strip-comments ),
 			:strip-pod( $.strip-pod ),
 			:strip-documentation( $.strip-documentation ),

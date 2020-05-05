@@ -1,4 +1,4 @@
-Revision history for Perl6-Tidy
+Revision history for Raku-Tidy
 
 {{$NEXT}}
 
@@ -20,7 +20,7 @@ Revision history for Perl6-Tidy
     - Get rid of the 'y' version
 
 y  2018-03-14T11:30:39+01:00
-    - Add Perl6::Parser as dependency
+    - Add Raku::Parser as dependency
 
 0.0.1  2018-03-12T16:17:39+01:00
     - Initial version

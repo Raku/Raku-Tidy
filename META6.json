@@ -5,21 +5,21 @@
   ],
   "build-depends" : [ ],
   "depends" : [
-    "Perl6::Parser",
+    "Raku::Parser",
     "Test::META"
   ],
-  "description" : "Perl 6 tidier",
+  "description" : "Raku tidier",
   "license" : "Artistic-2.0",
   "meta6" : "0",
-  "name" : "Perl6::Tidy",
+  "name" : "Raku::Tidy",
   "perl" : "6.c",
   "provides" : {
-    "Perl6::Tidy" : "lib/Perl6/Tidy.pm6"
+    "Raku::Tidy" : "lib/Raku/Tidy.pm6"
   },
   "resources" : [ ],
-  "source-url" : "https://github.com/drforr/perl6-Perl6-Tidy.git",
+  "source-url" : "https://github.com/Raku/Raku-Tidy.git",
   "support" : {
-    "source" : "https://github.com/drforr/perl6-Perl6-Tidy.git"
+    "source" : "https://github.com/Raku/Raku-Tidy.git"
   },
   "tags" : [
     "Tidying"

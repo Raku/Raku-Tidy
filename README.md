@@ -1,14 +1,14 @@
-[![Build Status](https://travis-ci.org/drforr/perl6-Perl6-Tidy.svg?branch=master)](https://travis-ci.org/drforr/perl6-Perl6-Tidy)
+[![Build Status](https://travis-ci.org/Raku/Raku-Tidy.svg?branch=master)](https://travis-ci.org/Raku/Raku-Tidy)
 
 NAME
 ====
 
-Perl6::Tidy - Tidy Perl 6 source code according to your guidelines
+Raku::Tidy - Tidy Raku source code according to your guidelines
 
 SYNOPSIS
 ========
 
-    bin/perl6-tidy
+    bin/raku-tidy
 
     Indents code to match simple tab style (mine in this case).
 
@@ -24,12 +24,12 @@ SYNOPSIS
 
     # This *will* execute phasers such as BEGIN in your existing code.
     # This may constitute a security hole, at least until the author figures
-    # out how to truly make the Perl 6 grammar standalone.
+    # out how to truly make the Raku grammar standalone.
 
 DESCRIPTION
 ===========
 
-Uses [Perl6::Parser](Perl6::Parser) to parse your source into a Perl 6 data structure, then walks the data structure and prints it according to your format guidelines.
+Uses [Raku::Parser](Raku::Parser) to parse your source into a Raku data structure, then walks the data structure and prints it according to your format guidelines.
 
 Indentation
 ===========
@@ -115,7 +115,7 @@ Installation
 * Using zef (a module management tool bundled with Rakudo Star):
 
 ```
-    zef update && zef install Perl6::Tidy
+    zef update && zef install Raku::Tidy
 ```
 
 ## Testing
@@ -123,12 +123,12 @@ Installation
 To run tests:
 
 ```
-    prove -e perl6
+    prove -e 'raku -Ilib'
 ```
 
 ## Author
 
-Jeffrey Goff, DrForr on #perl6, https://github.com/drforr/
+Jeffrey Goff, DrForr on #raku, https://github.com/drforr/
 
 ## License
 

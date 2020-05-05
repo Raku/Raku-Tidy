@@ -1,10 +1,10 @@
 use v6;
 
-use Perl6::Tidy;
+use Raku::Tidy;
 use Test;
 
 subtest '1tbs aka k-n-r', {
-	my $pt = Perl6::Tidy.new( :indent-style( 'tab' ) );
+	my $pt = Raku::Tidy.new( :indent-style( 'tab' ) );
 	my ( $source, $tidied );
 	subtest {
 		subtest {
@@ -353,7 +353,7 @@ END
 		Q{from IRC};
 
 	subtest 'k-n-r alias', {
-		$pt = Perl6::Tidy.new( :indent-style( 'k-n-r' ) );
+		$pt = Raku::Tidy.new( :indent-style( 'k-n-r' ) );
 		$source = chomp Q:to[END];
 class AA {     method run()     {     my $i = 0;     method 
                   generate()     {         i = 10.rand();         return i;     
@@ -395,7 +395,7 @@ END
 };
 
 subtest 'Allman', {
-	my $pt = Perl6::Tidy.new( :indent-style( 'Allman' ) );
+	my $pt = Raku::Tidy.new( :indent-style( 'Allman' ) );
 	my ( $source, $tidied );
 	subtest {
 		subtest {
@@ -725,7 +725,7 @@ END
 };
 
 subtest 'GNU', {
-	my $pt = Perl6::Tidy.new( :indent-style( 'GNU' ) );
+	my $pt = Raku::Tidy.new( :indent-style( 'GNU' ) );
 	my ( $source, $tidied );
 	subtest {
 		subtest {
@@ -1055,7 +1055,7 @@ END
 };
 
 subtest 'Whitesmiths', {
-	my $pt = Perl6::Tidy.new( :indent-style( 'Whitesmiths' ) );
+	my $pt = Raku::Tidy.new( :indent-style( 'Whitesmiths' ) );
 	my ( $source, $tidied );
 	subtest {
 		subtest {
@@ -1385,7 +1385,7 @@ END
 };
 
 subtest 'Horstmann', {
-	my $pt = Perl6::Tidy.new( :indent-style( 'Horstmann' ) );
+	my $pt = Raku::Tidy.new( :indent-style( 'Horstmann' ) );
 	my ( $source, $tidied );
 	subtest {
 		subtest {
@@ -1708,7 +1708,7 @@ END
 };
 
 subtest 'Pico', {
-	my $pt = Perl6::Tidy.new( :indent-style( 'Pico' ) );
+	my $pt = Raku::Tidy.new( :indent-style( 'Pico' ) );
 	my ( $source, $tidied );
 	subtest {
 		subtest {
@@ -2017,7 +2017,7 @@ END
 };
 
 subtest 'Ratliff', {
-	my $pt = Perl6::Tidy.new( :indent-style( 'Ratliff' ) );
+	my $pt = Raku::Tidy.new( :indent-style( 'Ratliff' ) );
 	my ( $source, $tidied );
 	subtest {
 		subtest {
@@ -2333,7 +2333,7 @@ END
 };
 
 subtest 'Lisp', {
-	my $pt = Perl6::Tidy.new( :indent-style( 'Lisp' ) );
+	my $pt = Raku::Tidy.new( :indent-style( 'Lisp' ) );
 	my ( $source, $tidied );
 	subtest {
 		subtest {
@@ -2636,4 +2636,4 @@ END
 
 done-testing;
 
-# vim: ft=perl6
+# vim: ft=raku!

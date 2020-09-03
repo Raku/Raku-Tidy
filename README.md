@@ -3,7 +3,7 @@
 NAME
 ====
 
-Perl6::Tidy - Tidy Perl 6 source code according to your guidelines
+Perl6::Tidy - Tidy Raku (formerly Perl 6) source code according to your guidelines
 
 SYNOPSIS
 ========
@@ -24,12 +24,12 @@ SYNOPSIS
 
     # This *will* execute phasers such as BEGIN in your existing code.
     # This may constitute a security hole, at least until the author figures
-    # out how to truly make the Perl 6 grammar standalone.
+    # out how to truly make the Raku grammar standalone.
 
 DESCRIPTION
 ===========
 
-Uses [Perl6::Parser](Perl6::Parser) to parse your source into a Perl 6 data structure, then walks the data structure and prints it according to your format guidelines.
+Uses [Perl6::Parser](Perl6::Parser) to parse your source into a Raku data structure, then walks the data structure and prints it according to your format guidelines.
 
 Indentation
 ===========
